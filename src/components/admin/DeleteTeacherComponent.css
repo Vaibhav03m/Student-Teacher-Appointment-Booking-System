@@ -1,0 +1,48 @@
+.teacher-info {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-info table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.teacher-info table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.teacher-info table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.teacher-info table td:first-child {
+  font-weight: bold;
+  width: 30%;
+}
+
+.teacher-info table td:last-child {
+  width: 70%;
+}
+
+.teacher-info .btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #ff4d4d;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.teacher-info .btn:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}

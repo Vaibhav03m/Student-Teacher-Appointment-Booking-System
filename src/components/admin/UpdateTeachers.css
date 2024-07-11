@@ -1,0 +1,80 @@
+.update-teachers-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.teacher-item span {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.update-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #3e1b6b; /* Match darker shade of primary color */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.update-button:hover {
+  background-color: #29134c; /* Darker shade for hover effect */
+  transform: scale(1.05);
+}
+
+.update-form {
+  margin-top: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #3e1b6b; /* Match darker shade of primary color */
+  outline: none;
+}
+
+.submit-button {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #3e1b6b; /* Match darker shade of primary color */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #29134c; /* Darker shade for hover effect */
+  transform: scale(1.05);
+}

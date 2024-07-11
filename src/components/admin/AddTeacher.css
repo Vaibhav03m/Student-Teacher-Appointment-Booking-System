@@ -1,0 +1,58 @@
+.add-teacher-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-teacher-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #3e1b6b;
+}
+
+.add-teacher-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-label {
+  width: 100%;
+  text-align: left;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin: 5px 0;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #3e1b6b;
+  outline: none;
+}
+
+.form-button {
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #3e1b6b;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #29134c;
+  transform: scale(1.05);
+}

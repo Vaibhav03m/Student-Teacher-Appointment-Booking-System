@@ -1,0 +1,44 @@
+.send-message {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.send-message form {
+  display: flex;
+  flex-direction: column;
+}
+
+.send-message form label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.send-message form select,
+.send-message form textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.send-message form button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.send-message form button:hover {
+  background-color: #0056b3;
+}

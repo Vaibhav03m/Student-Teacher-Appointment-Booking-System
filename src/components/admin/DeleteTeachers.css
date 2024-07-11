@@ -1,0 +1,27 @@
+.delete-teachers-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-list {
+  overflow: hidden;
+  margin: 1rem;
+}
+
+.teacher-item {
+  background-color: #fff;
+  padding: 1rem;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-item:last-child {
+  border-bottom: none; /* Remove bottom border from the last teacher item */
+}

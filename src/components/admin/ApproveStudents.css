@@ -1,0 +1,78 @@
+.approve-students-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #3e1b6b;
+  text-align: center;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.students-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.students-table th,
+.students-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.students-table th {
+  background-color: #3e1b6b;
+  color: #ffffff;
+}
+
+.students-table td {
+  background-color: #ffffff;
+}
+
+.students-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.approve-button,
+.reject-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.approve-button {
+  background-color: #4caf50;
+  margin-right: 0.5rem;
+}
+
+.reject-button {
+  background-color: #ff4d4d;
+}
+
+.approve-button:hover {
+  background-color: #388e3c;
+  transform: scale(1.05);
+}
+
+.reject-button:hover {
+  background-color: #cc0000;
+  transform: scale(1.05);
+}
