@@ -1,3 +1,6 @@
+## Student-Teacher Appointment Booking System
+This application is developed using react and firebase to enhance the interactions between students and teachers where they can schedule appointments and communicate via messages.
+
 ## Login Credentials for Admin
 Email: admin@tutorup.com
 Passwaord: admin@123
