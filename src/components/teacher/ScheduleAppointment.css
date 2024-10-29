@@ -41,3 +41,37 @@
 .submit-button:hover {
   background-color: #0056b3;
 }
+
+/* Shared styling for both components */
+.time-slot-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.time-slot-table th,
+.time-slot-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.free-slot {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.booked-slot {
+  background-color: #999;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: not-allowed;
+}
+
+.booked-slot:disabled,
+.free-slot:disabled {
+  cursor: not-allowed;
+}

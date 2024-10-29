@@ -5,6 +5,7 @@ import ApproveCancelAppointment from './ApproveCancelAppointment'
 import ViewMessages from '../messages/ViewMessages'
 import SendMessage from '../messages/SendMessage'
 import ViewAllAppointments from './ViewAllAppointments'
+import ManageAvailability from './ManageAvailablility'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import './TeacherDashboard.css'
 
@@ -19,6 +20,7 @@ const TeacherDashboard = () => {
     <div className="teacher-dashboard">
       <nav className="teacher-nav-container">
         <ul>
+          <li><Link className="nav-link" to="manage-availability">Manage Availability</Link></li>
           <li><Link className="nav-link" to="schedule-appointment">Schedule Appointment</Link></li>
           <li><Link className="nav-link" to="approve-cancel-appointment">Approve/Cancel Appointment</Link></li>
           <li><Link className="nav-link" to="view-all-appointments">View All Appointments</Link></li>
@@ -29,6 +31,7 @@ const TeacherDashboard = () => {
 
       <div className="teacher-main-content">
         <Routes>
+          <Route path="manage-availability" element={<ManageAvailability />} />
           <Route path="schedule-appointment" element={<ScheduleAppointment />} />
           <Route path="approve-cancel-appointment" element={<ApproveCancelAppointment />} />
           <Route path="send-message" element={<SendMessage />} />

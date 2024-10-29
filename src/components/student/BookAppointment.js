@@ -1,96 +1,147 @@
-import React, { useState, useEffect } from 'react'
-import { db } from '../../firebase/config'
-import { useAuthContext } from '../../hooks/useAuthContext'
-import './BookAppointment.css'
+import React, { useState, useEffect } from "react";
+import { db } from "../../firebase/config";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import "./BookAppointment.css";
 
 const BookAppointment = () => {
-  const { user } = useAuthContext()
-  const [teachers, setTeachers] = useState([])
-  const [student, setStudent] = useState(null)
-  const [selectedTeacher, setSelectedTeacher] = useState('')
-  const [date, setDate] = useState('')
-  const [time, setTime] = useState('')
-  const [error, setError] = useState(null)
+  const { user } = useAuthContext();
+  const [teachers, setTeachers] = useState([]);
+  const [student, setStudent] = useState(null);
+  const [appointments, setAppointments] = useState([]);
+  const [unavailableSlots, setUnavailableSlots] = useState([]); // To store unavailable slots
+  const [selectedTeacher, setSelectedTeacher] = useState("");
+  const [date, setDate] = useState("");
+  const [error, setError] = useState(null);
+  const timeSlots = ["14:00", "14:30", "15:00", "15:30", "16:00", "16:30"];
 
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const snapshot = await db.collection('teachers').get()
-        const teachersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-        setTeachers(teachersData)
+        const snapshot = await db.collection("teachers").get();
+        const teachersData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTeachers(teachersData);
       } catch (error) {
-        setError(error.message)
+        setError(error.message);
       }
     };
 
     const fetchStudent = async () => {
       try {
-        const studentDoc = await db.collection('students').doc(user.uid).get()
+        const studentDoc = await db.collection("students").doc(user.uid).get();
         if (studentDoc.exists) {
-          setStudent(studentDoc.data())
+          setStudent(studentDoc.data());
         } else {
-          setError('Student not found.')
+          setError("Student not found.");
         }
       } catch (error) {
-        setError(error.message)
+        setError(error.message);
       }
     };
 
-    fetchTeachers()
-    fetchStudent()
+    fetchTeachers();
+    fetchStudent();
   }, [user.uid]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError(null)
+  const fetchAppointmentsAndUnavailableSlots = async (
+    selectedTeacherId,
+    selectedDate
+  ) => {
+    try {
+      // Fetch booked appointments
+      const appointmentsSnapshot = await db
+        .collection("appointments")
+        .where("teacherUid", "==", selectedTeacherId)
+        .where("date", "==", selectedDate)
+        .get();
+
+      const appointmentsData = appointmentsSnapshot.docs.map((doc) =>
+        doc.data()
+      );
+      setAppointments(appointmentsData);
+
+      // Fetch unavailable slots
+      const unavailableSnapshot = await db
+        .collection("unavailableSlots")
+        .where("teacherUid", "==", selectedTeacherId)
+        .where("date", "==", selectedDate)
+        .get();
+
+      const unavailableData = unavailableSnapshot.docs.map((doc) => doc.data());
+      setUnavailableSlots(unavailableData);
+    } catch (error) {
+      setError("Error fetching data.");
+    }
+  };
+
+  useEffect(() => {
+    if (selectedTeacher && date) {
+      fetchAppointmentsAndUnavailableSlots(selectedTeacher, date);
+    }
+  }, [selectedTeacher, date]);
+
+  const isSlotUnavailable = (time) => {
+    return unavailableSlots.some((slot) => slot.time === time);
+  };
+
+  const isSlotBooked = (time) => {
+    return appointments.some((appointment) => appointment.time === time);
+  };
+
+  const handleBook = async (timeSlot) => {
+    const today = new Date();
+    const selectedDate = new Date(date);
+
+    if (selectedDate < today.setHours(0, 0, 0, 0)) {
+      // Check if selected date is in the past
+      setError("You cannot book an appointment for a past date.");
+      return;
+    }
+
+    if (!selectedTeacher || !date) {
+      setError("Please select a teacher and date before booking.");
+      return;
+    }
 
     try {
-      const selectedTeacherData = teachers.find(teacher => teacher.id === selectedTeacher)
-
-      if (!selectedTeacherData) {
-        throw new Error('Selected teacher not found.')
-      }
-
-      if (!student) {
-        throw new Error('Student information not available.')
-      }
-
-      // Validate date and time
-      const selectedDateTime = new Date(`${date}T${time}:00`)
-      const currentDateTime = new Date()
-
-      if (selectedDateTime <= currentDateTime) {
-        throw new Error('Appointment date and time must be in the future.')
-      }
-
-      await db.collection('appointments').add({
+      await db.collection("appointments").add({
         studentUid: user.uid,
         studentId: student.studentid,
         studentName: student.displayName,
         teacherUid: selectedTeacher,
-        teacherId: selectedTeacherData.teacherid,
-        teacherName: selectedTeacherData.displayName,
+        teacherId: teachers.find((teacher) => teacher.id === selectedTeacher)
+          .teacherid,
+        teacherName: teachers.find((teacher) => teacher.id === selectedTeacher)
+          .displayName,
         date,
-        time,
-        status: 'pending',
+        time: timeSlot,
+        status: "pending",
       });
 
-      setSelectedTeacher('')
-      setDate('')
-      setTime('')
-      alert('Appointment requested successfully!')
+      fetchAppointmentsAndUnavailableSlots(selectedTeacher, date); // Refresh the slots
+      alert("Appointment booked successfully!");
     } catch (error) {
-      setError(error.message)
+      setError(error.message);
     }
   };
 
+  const tomorrowDate = new Date();
+  tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+  const minDate = tomorrowDate.toISOString().split("T")[0];
+
   return (
     <div className="book-appointment">
-      <h2 className='page-title'>Book Appointment</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 className="page-title">Book Appointment</h2>
+      <form className="appointment-form">
         <label>
           Select Teacher:
-          <select value={selectedTeacher} onChange={(e) => setSelectedTeacher(e.target.value)} required>
+          <select
+            value={selectedTeacher}
+            onChange={(e) => setSelectedTeacher(e.target.value)}
+            required
+          >
             <option value="">Select a teacher</option>
             {teachers.map((teacher) => (
               <option key={teacher.id} value={teacher.id}>
@@ -101,15 +152,86 @@ const BookAppointment = () => {
         </label>
         <label>
           Date:
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+          <input
+            type="date"
+            value={date}
+            min={minDate} // Prevent selecting past dates
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
         </label>
-        <label>
-          Time:
-          <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
-        </label>
-        <button type="submit">Book</button>
       </form>
       {error && <p className="error">{error}</p>}
+
+      {selectedTeacher && date && (
+        <div className="time-slots">
+          <table
+            className="time-slot-table"
+            style={{ width: "100%", borderCollapse: "collapse" }}
+          >
+            <thead>
+              <tr>
+                <th>
+                  Time Slot
+                </th>
+                <th>
+                  Status
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {timeSlots.map((slot) => (
+                <tr key={slot}>
+                  <td style={{ padding: "10px", border: "1px solid #ddd" }}>
+                    {slot}
+                  </td>
+                  <td>
+                    <span>
+                      {isSlotBooked(slot)
+                        ? "Booked"
+                        : isSlotUnavailable(slot)
+                        ? "Unavailable"
+                        : "Free"}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      style={{
+                        backgroundColor:
+                          isSlotBooked(slot) || isSlotUnavailable(slot)
+                            ? "red"
+                            : "green",
+                        color: "white",
+                        border: "none",
+                        padding: "10px 15px",
+                        cursor:
+                          isSlotBooked(slot) || isSlotUnavailable(slot)
+                            ? "not-allowed"
+                            : "pointer",
+                        opacity:
+                          isSlotBooked(slot) || isSlotUnavailable(slot)
+                            ? 0.6
+                            : 1,
+                        borderRadius: "5px",
+                        fontSize: "16px",
+                      }}
+                      onClick={() => handleBook(slot)}
+                      disabled={isSlotBooked(slot) || isSlotUnavailable(slot)}
+                    >
+                      {isSlotBooked(slot) || isSlotUnavailable(slot)
+                        ? "Unavailable"
+                        : "Book"}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

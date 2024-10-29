@@ -37,14 +37,15 @@ export const useLogin = () => {
 
         switch (userData.role) {
           case 'admin':
-            navigate('/admin-dashboard', { replace: true });
+            navigate('/', { replace: true });
             break;
           case 'teacher':
-            navigate('/teacher-dashboard', { replace: true });
+            navigate('/', { replace: true });
             break;
           case 'student':
-            navigate('/student-dashboard', { replace: true });
+            navigate('/', { replace: true });
             break;
+          
           default:
             throw new Error('Unknown role');
         }
