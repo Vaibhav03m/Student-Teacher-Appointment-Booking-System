@@ -3,12 +3,12 @@ import 'firebase/firestore'
 import 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAMNvIqnJRzmME_NMIiEMlDYEQmKdgHE9k",
-  authDomain: "appointmentbookingsystem-520b8.firebaseapp.com",
-  projectId: "appointmentbookingsystem-520b8",
-  storageBucket: "appointmentbookingsystem-520b8.appspot.com",
-  messagingSenderId: "1413967356",
-  appId: "1:1413967356:web:450ee99c3ea4e87b7b5679",
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_ID",
+  appId: "YOUR_APP_ID",
 };
 
 firebase.initializeApp(firebaseConfig)
